@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Nueva Película</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+    <div class="container">
+        <a class="navbar-brand" href="#">Gestión de Películas</a>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header text-center bg-primary text-white rounded-top">
+                    <h3>Registrar Nueva Película</h3>
+                </div>
+                <div class="card-body bg-white">
+                    <form th:object="${filmInsertDto}" th:action="@{/maintenance/insert}" method="post" novalidate>
+
+                        <!-- Título -->
+                        <div class="mb-3">
+                            <label for="title" class="form-label fw-bold text-secondary">Título</label>
+                            <input type="text" class="form-control rounded-pill" id="title" th:field="*{title}" required minlength="1" maxlength="255">
+                        </div>
+
+                        <!-- Descripción -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label fw-bold text-secondary">Descripción</label>
+                            <textarea class="form-control rounded-3" id="description" th:field="*{description}" rows="3" required minlength="10"></textarea>
+                        </div>
+
+                        <!-- Año de lanzamiento -->
+                        <div class="mb-3">
+                            <label for="releaseYear" class="form-label fw-bold text-secondary">Año de Lanzamiento</label>
+                            <input type="number" class="form-control rounded-pill" id="releaseYear" th:field="*{releaseYear}" required min="1900" max="2100">
+                        </div>
+
+                        <!-- Idioma -->
+                        <div class="mb-3">
+                            <label for="languageId" class="form-label fw-bold text-secondary">Idioma</label>
+                            <select class="form-select rounded-pill" id="languageId" th:field="*{languageId}" required>
+                                <option th:each="lang : ${languages}" th:value="${lang.languageId}" th:text="${lang.name}"></option>
+                            </select>
+                        </div>
+
+                        <!-- Otros campos del formulario -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="rentalDuration" class="form-label fw-bold text-secondary">Duración de Alquiler (días)</label>
+                                <input type="number" class="form-control rounded-pill" id="rentalDuration" th:field="*{rentalDuration}" required min="1">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="rentalRate" class="form-label fw-bold text-secondary">Precio de Alquiler (USD)</label>
+                                <input type="number" step="0.01" class="form-control rounded-pill" id="rentalRate" th:field="*{rentalRate}" required min="0.01">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="length" class="form-label fw-bold text-secondary">Duración (minutos)</label>
+                                <input type="number" class="form-control rounded-pill" id="length" th:field="*{length}" required min="1">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="replacementCost" class="form-label fw-bold text-secondary">Costo de Reemplazo (USD)</label>
+                                <input type="number" step="0.01" class="form-control rounded-pill" id="replacementCost" th:field="*{replacementCost}" required min="0.01">
+                            </div>
+                        </div>
+
+                        <!-- Clasificación -->
+                        <div class="mb-3">
+                            <label for="rating" class="form-label fw-bold text-secondary">Clasificación</label>
+                            <select class="form-select rounded-pill" id="rating" th:field="*{rating}" required>
+                                <option value="G">G</option>
+                                <option value="PG">PG</option>
+                                <option value="PG-13">PG-13</option>
+                                <option value="R">R</option>
+                                <option value="NC-17">NC-17</option>
+                            </select>
+                        </div>
+
+                        <!-- Efectos especiales -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-secondary">Efectos Especiales</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="trailers" name="specialFeatures" value="Trailers">
+                                <label class="form-check-label" for="trailers">Trailers</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="commentaries" name="specialFeatures" value="Commentaries">
+                                <label class="form-check-label" for="commentaries">Commentaries</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="deletedScenes" name="specialFeatures" value="Deleted Scenes">
+                                <label class="form-check-label" for="deletedScenes">Deleted Scenes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="behindTheScenes" name="specialFeatures" value="Behind the Scenes">
+                                <label class="form-check-label" for="behindTheScenes">Behind the Scenes</label>
+                            </div>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary rounded-pill px-4">Registrar</button>
+                            <a th:href="@{/maintenance/start}" class="btn btn-danger rounded-pill px-4">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
